@@ -1,7 +1,5 @@
-# Golang_Docs_Guide
-Guide Golang
+# Golang <img  width= "40px" src="https://user-images.githubusercontent.com/68103697/142988889-eb5c8ecf-7ae6-481b-8e8d-ffcf043830aa.png"/> 
 
-# Golang
 ## 1. Introduction
 
 ## 2. Variables 
@@ -24,7 +22,6 @@ Guide Golang
 package main
 
 import (
-	"fmt"
 	"time"
 )
 
