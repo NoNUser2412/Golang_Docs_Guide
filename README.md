@@ -1,6 +1,8 @@
 # Golang <img  width= "40px" src="https://user-images.githubusercontent.com/68103697/142988889-eb5c8ecf-7ae6-481b-8e8d-ffcf043830aa.png"/> 
 
+# Golang
 ## 1. Introduction
+<img  width= "100%" align="left" src="https://user-images.githubusercontent.com/68103697/143036012-ee9538a1-9a6d-4abe-ab16-7115a40d5613.png"/> 
 
 ## 2. Variables 
 ## 3. Primitive data
@@ -22,6 +24,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -371,7 +374,7 @@ func main() {
 	time.Sleep(time.Second * 10)
 }
 ```
-
+# ***DESIGN PATTERN FOR*** *Golang*
 
 ## 19. Creational pattern - Builder 
 - *dùng khi tạo 1 Struct có nhiều thuộc tính*
@@ -560,13 +563,491 @@ func main() {
 
 ```
 ## 20. Creational pattern - Abstract factory
+- Abstract Product Interface 1
+- Abstract Product Interface 2
+- Concrete Product 1
+- Concrete Product 2
+- Abstract Factory Interface
+- Concrete Factory 1
+- Concrete Factory 2
+
+### **Các file:**
+**File** *iShoe.go*
 ```Go
+package abstractfactory
+
+//IShoe is interface
+type IShoe interface {
+	setLogo(logo string)
+	setSize(size int)
+	GetLogo() string
+	GetSize() int
+}
+
+type shoe struct {
+	logo string
+	size int
+}
+
+func (s *shoe) setLogo(logo string) {
+	s.logo = logo
+}
+
+func (s *shoe) setSize(size int) {
+	s.size = size
+}
+
+func (s *shoe) GetLogo() string {
+	return s.logo
+}
+
+func (s *shoe) GetSize() int {
+	return s.size
+}
+```
+**File** *iShort.go*
+```Go
+package abstractfactory
+
+//IShort is interface
+type IShort interface {
+	setLogo(logo string)
+	setSize(size int)
+	GetLogo() string
+	GetSize() int
+}
+
+type short struct {
+	logo string
+	size int
+}
+
+func (s *short) setLogo(logo string) {
+	s.logo = logo
+}
+
+func (s *short) setSize(size int) {
+	s.size = size
+}
+
+func (s *short) GetLogo() string {
+	return s.logo
+}
+
+func (s *short) GetSize() int {
+	return s.size
+}
+```
+**File** *adidasShoe.go*
+```Go
+package abstractfactory
+
+type adidasShoe struct {
+	shoe
+}
+```
+**File** *adidasShort.go*
+```Go
+package abstractfactory
+
+type adidasShort struct {
+	short
+}
+```
+**File** *nikeShoe.go*
+```Go
+package abstractfactory
+
+type nikeshoe struct {
+	shoe
+}
+```
+**File** *nikeShort.go*
+```Go
+package abstractfactory
+
+type nikeShort struct {
+	short
+}
+```
+**File** *iSportFactory.go*
+```Go
+package abstractfactory
+
+//ISportFactory is interface
+type ISportFactory interface {
+	MakeShoe() IShoe
+	MakeShort() IShort
+}
+
+//GetSportFactory is function
+func GetSportsFactory(brand string) ISportFactory {
+	switch brand {
+	case "adidas":
+		return &Adidas
+	case "nike":
+		return &Nike
+	}
+	return nil
+}
+```
+**File** *adidas.go*
+```Go
+package abstractfactory
+
+type Adidas struct{}
+
+func (a *Adidas) MakeShoe() IShoe {
+	return &adidasShoe{
+		shoe: shoe{
+			logo: "adidas",
+			size: 14,
+		},
+	}
+}
+
+func (a *Adidas) MakeShort() IShort {
+	return &adidasShort{
+		short: short{
+			logo: "adidas",
+			size: 14,
+		},
+	}
+}
+```
+**File** *nike.go*
+```Go
+package abstractfactory
+
+type Nike struct{}
+
+func (n *Nike) MakeShoe() IShoe {
+	return &nikeShoe{
+		shoe: shoe{
+			logo: "Nike",
+			size: 12,
+		},
+	}
+}
+
+func (n *Nike) MakeShort() IShort {
+	return &nikeShort{
+		short: short{
+			logo: "Nike",
+			size: 12,
+		},
+	}
+}
+```
+**File** *main.go*
+```Go
+package main
+
+import (
+	"abstractfactory"
+	"fmt"
+)
+
+func main() {
+	adidasFactory := abstractfactory.GetSportFactory("adidas")
+	adidasShoe := adidasFactory.MakeShoe()
+	printShoeDetails(adidasShoe)
+	adidasShort := adidasFactory.MakeShort()
+	printShortDetails(adidasShort)
+
+	nikeFactory := abstractfactory.GetSportFactory("Nike")
+	nikeShoe := nikeFactory.MakeShoe()
+	printShoeDetails(nikeShoe)
+	nikeShort := nikeFactory.MakeShort()
+	printShortDetails(nikeShort)
+
+}
+
+func printShoeDetails(s abstractfactory.IShoe) {
+	fmt.Printf("Logo: %s\n", s.GetLogo())
+	fmt.Printf("Size: %d\n", s.GetSize())
+}
+
+func printShortDetails(s abstractfactory.IShort) {
+	fmt.Printf("Logo: %s\n", s.GetLogo())
+	fmt.Printf("Size: %d\n", s.GetSize())
+}
 ```
 ## 21. Creational pattern - Prototype
+- **When use ?**
+
+  - *Sử dụng khi muốn tạo ra 1 bản sao của đối tượng mà struct của nó bên trong chứa thuộc tính của 1 struct khác*
+
+- Các thành phẩn của Prototype:
+
+	- Prototype Interface
+
+		- Phương thức Clone()
+
+	- Concrete Prototype 1, 2,...
+
+**File** *INode.go*
 ```Go
+//File INode.go
+package prototype
+
+import "fmt"
+
+type INode interface {
+	Clone() INode
+	Print(s string)
+}
 ```
+**File** *File.go*
+```Go
+//File File.go
+package prototype
+
+import "fmt"
+
+type File struct {
+	Name string
+}
+
+func Print(f *file) Print(s string) {
+	fmt.Println(s + f.Name)
+}
+
+func (f*file) Clone() INode {
+	return &File(name : f.Name + "_Clone")
+}
+```
+**File** *Folder.go*
+```Go
+//File Folder.go
+package prototype
+
+import "fmt"
+
+type Folder struct {
+	Childrens []INode
+	Name string
+}
+
+func (f *Folder) Print(s string) {
+	fmt.Println(s + f.Name)
+	for _, i := range f.Childrens {
+		i.Print(s + s)
+	}
+}
+
+func (f *Clone) Clone() INode {
+	cloneFolder := &Folder{Name : f.Name + "_Clone"}
+	var tempChildrens []INode
+	for _, i := range f.Childrens {
+		copy := i.Clone()
+		tempChildrens = append(tempChildrens, copy)
+	}
+	cloneFolder.Childrens = tempChildrens
+	return cloneFolder
+}
+```
+**File** *main.go*
+```Go
+//File main.go
+package main
+
+import (
+	"fmt"
+	p "prototype"
+)
+
+func main() {
+	file1 := &p.file{Name : "File 1"}
+	file2 := &p.file{Name : "File 2"}
+	file3 := &p.file{Name : "File 3"}
+	folder1 := &p.Folder{
+		Childrens : []p.INode{file1},
+		Name : "Folder 1"
+	}
+
+	folder2 := &p.Folder{
+		Childrens : []p.INode{file1, file2, file3},
+		Name : "Folder 2"
+	}
+
+	fmt.Println("\n Printing for folder 2")
+	folder2.Print("   ")
+	cloneFolder := folder2.Clone()
+	fmt.Println("\n Printing for clone folder 2")
+	folder2.Print("   ")
+}
+```   
+
 ## 22. Behavioral pattern - Chain of responsibility
-## 23. Behavioral pattern - Command
+**When use???**
+- Khi ta có 1 đối tượng và đối tượng đó được xử lý bằng một chuỗi các hành vi xử lý   
+   
+**Các thành phần:**  
+
+- Client
+- Handler interface
+
+	- Phương thức Execute()  
+	- Phương thức setNext()  
+- Concrete Handler ,...    
+**File** *patient.go*
+```Go
+//File patient.go
+package chainofresponsibility
+
+import "fmt"
+
+type Patient struct {
+	Name string
+	isRegistered bool
+	isDoctorChecked bool
+	isMedicineProvide bool
+	isPaid bool
+}
+```   
+**File** *department.go*
+```Go
+//File department.go
+package chainofresponsibility
+
+type Department interface {
+	Execute(*Patient)
+	SetNext(Department)
+}
+```
+**File** *reception.go*
+```Go
+//File reception.go
+package chainofresponsibility
+
+import "fmt"
+
+type Reception struct {
+	next Department
+}
+
+func (r *Reception) Execute(p *Patient) {
+	if p.isRegistered {
+		fmt.Println("Patient registration has already done")
+		r.next.Execute(p)
+		return
+	}
+	fmt.Println("Reception registering patient")
+	p.isRegistered = true
+	r.next.Execute(p)
+}
+
+func (r *Reception) SetNext(next Department) {
+	r.next = next
+}
+```   
+**File** *doctor.go*
+```Go
+//File doctor.go
+package chainofresponsibility
+
+import "fmt"
+
+type Doctor struct {
+	next Department
+}
+
+func (d *Doctor) Execute(p *Patient) {
+	if p.isDoctorChecked {
+		fmt.Println("Patient already checked by doctor")
+		d.next.Execute(p)
+		return
+	}
+	fmt.Println("Doctor is checking patient")
+	p.isDoctorChecked = true
+	d.next.Execute(p)
+}
+
+func (d *Doctor) SetNext(next Department) {
+	d.next = next
+}
+```   
+**File** *medical.go* 
+```Go
+//File medical.go
+package chainofresponsibility
+
+import "fmt"
+
+type Medical struct {
+	next Department
+}
+
+func (m *Medical) Execute(p *Patient) {
+	if p.isMedicineProvide {
+		fmt.Println("Patient already provide medicine")
+		m.next.Execute(p)
+		return
+	}
+	fmt.Println("We are providing medicine to patient")
+	p.isMedicineProvide = true
+	m.next.Execute(p)
+}
+
+func (m *Medical) SetNext(next Department) {
+	m.next = next
+}
+```   
+**File** *cashier.go*
+```Go
+//File cashier.go
+package chainofresponsibility
+
+import "fmt"
+
+type Cashier struct {
+	next Department
+}
+
+func (c *Cashier) Execute(p *Patient) {
+	if p.isPaid {
+		fmt.Println("Patient already paid their bill")
+		r.next.Execute(p)
+		return
+	}
+	fmt.Println("Patient is paying the bill")
+	p.isPaid = true
+
+}
+
+func (c *Cashier) SetNext(next Department) {
+	c.next = next
+}
+```   
+**File** *main.go*   
+```Go
+//File main.go
+package main
+
+import (
+	 c "chainofresponsibility"
+)
+func main() {
+	cashier := &c.Cashier{}
+
+	medical := &c.Medical{}
+	medical.setNext(cashier)
+
+	doctor := &c.Doctor{}
+	doctor.setNext(medical)
+
+	reception := &c.Reception{}
+	doctor.setNext(doctor)
+
+	patient := &c.Patient{Name: "Yuh"}
+	reception.Execute(patient)
+}
+```   
+## 23. Behavioral pattern - Command   
+**When use**   
+
+
 ## 24. Behavioral pattern - Iterator
 ## 25. Behavioral pattern - Mediator
 ## 26. Behavioral pattern - Memento
@@ -583,4 +1064,5 @@ func main() {
 ## 37. Structural pattern - Proxy
 ## 38. Structural pattern - Decorator
 ## 39. Stack & Heap & Cấp phát bộ nhớ
+
 
