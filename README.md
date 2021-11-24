@@ -1061,9 +1061,128 @@ func main() {
 ## 23. Behavioral pattern - Command  
 <img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172000-48d0b93f-5013-4eb5-b9ec-93a572c65771.png"/>   
 
-**When use**  
+**Các thành phần:**  
+- Involker  
+- Command interface   
+	- Phương thức Execute()    
+   
+- Concrete Command ,...    
+- Receiver Interface    
+- Concrete receiver    
+    
+**File:** *button.go*   
+```Go
+//File button.go
+package commmand
 
+import "fmt"
 
+type Button struct {
+	Command Command
+}
+
+func (b *Button) Press() {
+	b.Command.execute()
+}
+```    
+
+**File:** *command.go*   
+```Go
+//File command.go
+package commmand
+
+type Command interface {
+	execute()
+}
+```  
+**File:** *onCommand.go*   
+```Go
+//File onCommand.go
+package commmand
+
+//File onCommand.go
+package commmand
+
+type OnCommand struct {
+	Device Device
+}
+
+func (c *OnCommand) execute() {
+	c.Device.on()
+}
+```
+**File:** *offCommand.go*   
+```Go
+//File offCommand.go
+package commmand
+
+type OffCommand struct {
+	Device Device
+}
+
+func (c *OffCommand) execute() {
+	c.Device.off()
+}
+```
+**File:** *device.go*   
+```Go
+//File device.go
+package commmand
+
+type Device interface {
+	on()
+	off()
+}
+```
+**File:** *tivi.go*   
+```Go
+//File tivi.go
+package commmand
+
+import "fmt"
+
+type Tivi struct {
+	isRunning bool
+}
+
+func (t *Tivi) on() {
+	t.isRunning = true
+	fmt.Println("Turning tivi on")
+}
+
+func (t *Tivi) off() {
+	t.isRunning = false
+	fmt.Println("Turning tivi off")
+}
+```  
+
+**File:** *main.go*   
+```Go
+//File main.go
+package main
+
+import c "command"
+
+func main() {
+	tv := &c.Tivi{}
+	onCommand := &c.OnCommand{
+		Device: tv,
+	}
+	offCommand := &c.OffCommand{
+		Device: tv,
+	}
+
+	onButton := &c.OnButton{
+		Command: onCommand,
+	}
+	onButton.Press()
+
+	offButton := &c.OffButton{
+		Command: offCommand,
+	}
+	offButton.Press()
+}
+```   
 
 ## 24. Behavioral pattern - Iterator
 <img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172134-b01e5e01-595f-43da-8a8f-13e40e98987e.png"/>  
