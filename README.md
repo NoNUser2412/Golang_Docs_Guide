@@ -2,7 +2,8 @@
 
 # Golang
 ## 1. Introduction
-<img  width= "100%" align="left" src="https://user-images.githubusercontent.com/68103697/143036012-ee9538a1-9a6d-4abe-ab16-7115a40d5613.png"/> 
+<img  width= "100%" align="left" src="https://user-images.githubusercontent.com/68103697/143036012-ee9538a1-9a6d-4abe-ab16-7115a40d5613.png"/>    
+
 
 ## 2. Variables 
 ## 3. Primitive data
@@ -324,8 +325,11 @@ func fib(n int) int {
 	}
 	return fib(n-1) + fib(n-2)
 }
-```
+```   
+# ***DESIGN PATTERN FOR*** *Golang*
 ## 18. Creational pattern - Singleton *- Sử dụng để tạo ra một đối tượng xuyên suốt cho một struct (Data, IO, Log)*
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143162544-1f108383-bd85-40e3-9b2d-61d001cd014b.png"/>   
+
 **File** *singleton.go*
 ```Go
 package singleton
@@ -374,9 +378,13 @@ func main() {
 	time.Sleep(time.Second * 10)
 }
 ```
-# ***DESIGN PATTERN FOR*** *Golang*
+
 
 ## 19. Creational pattern - Builder 
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143161487-306b5a05-a052-4d18-a52f-f026f3192996.png"/>
+<br>
+</br>
+
 - *dùng khi tạo 1 Struct có nhiều thuộc tính*
 - *dùng khi muốn tạo ra 1 đối tượng cụ thể hơn cho struct*
 - *tạo ra 1 struct mà không cần phải khai báo tất cả các thuộc tính của struct đó*
@@ -563,6 +571,9 @@ func main() {
 
 ```
 ## 20. Creational pattern - Abstract factory
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143162802-85350dbe-580a-467d-a3a5-1460902686a9.png"/>   
+
+
 - Abstract Product Interface 1
 - Abstract Product Interface 2
 - Concrete Product 1
@@ -774,6 +785,7 @@ func printShortDetails(s abstractfactory.IShort) {
 }
 ```
 ## 21. Creational pattern - Prototype
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143162956-6861542f-7e02-42d3-b5d4-95157ac4ab4c.png"/>
 - **When use ?**
 
   - *Sử dụng khi muốn tạo ra 1 bản sao của đối tượng mà struct của nó bên trong chứa thuộc tính của 1 struct khác*
