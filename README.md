@@ -3,8 +3,7 @@
 # Golang
 ## 1. Introduction
 <img  width= "100%" align="left" src="https://user-images.githubusercontent.com/68103697/143036012-ee9538a1-9a6d-4abe-ab16-7115a40d5613.png"/>    
----
-
+    
 ## 2. Variables 
 ## 3. Primitive data
 ## 4. Constant enum
