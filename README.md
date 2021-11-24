@@ -784,7 +784,8 @@ func printShortDetails(s abstractfactory.IShort) {
 }
 ```
 ## 21. Creational pattern - Prototype
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143162956-6861542f-7e02-42d3-b5d4-95157ac4ab4c.png"/>
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143162956-6861542f-7e02-42d3-b5d4-95157ac4ab4c.png"/>   
+
 - **When use ?**
 
   - *Sử dụng khi muốn tạo ra 1 bản sao của đối tượng mà struct của nó bên trong chứa thuộc tính của 1 struct khác*
@@ -891,6 +892,8 @@ func main() {
 ```   
 
 ## 22. Behavioral pattern - Chain of responsibility
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143171894-6027328d-024c-49c1-99e3-af119da810b3.png"/>
+
 **When use???**
 - Khi ta có 1 đối tượng và đối tượng đó được xử lý bằng một chuỗi các hành vi xử lý   
    
@@ -1055,25 +1058,67 @@ func main() {
 	reception.Execute(patient)
 }
 ```   
-## 23. Behavioral pattern - Command   
-**When use**   
+## 23. Behavioral pattern - Command  
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172000-48d0b93f-5013-4eb5-b9ec-93a572c65771.png"/>   
+
+**When use**  
+
 
 
 ## 24. Behavioral pattern - Iterator
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172134-b01e5e01-595f-43da-8a8f-13e40e98987e.png"/>  
+
 ## 25. Behavioral pattern - Mediator
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172523-f7696e35-76e2-4f4c-80c1-e5b097f62348.png"/>    
+
 ## 26. Behavioral pattern - Memento
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172660-6677dce5-c3b9-47d5-9fb0-a3db397aac21.png"/>    
+
 ## 27. Behavioral pattern - Observer
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172731-49a14b4f-756b-4d42-8932-2a2753c0a41e.png"/>     
+
 ## 28. Behavioral pattern - State
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172816-099490d0-a474-4f01-bf5c-2e5ecdaff30e.png"/>    
+
 ## 29. Behavioral pattern - Strategy
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172858-2a8e5e59-f3a1-4d5a-9755-c52994304035.png"/>    
+
 ## 30. Behavioral pattern - Template method
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172894-d24b2443-2cad-4ac8-b422-8a60a47be891.png"/>     
+
 ## 31. Behavioral pattern - Visitor
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172937-a6129e6b-e761-4cb4-a38a-c22ca6fc9828.png"/>     
+
 ## 32. Structural pattern - Adapter
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172968-b0a5e113-7e47-406a-ad99-bb1b4066e55a.png"/>     
+
 ## 33. Structural pattern - Bridge
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173052-9eb02bd9-d3c1-4a80-841c-019d3c40c33f.png"/>     
+
 ## 34. Structural pattern - Composite
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173116-ae46b30c-d050-4cbf-8c63-90ee0ed6cc47.png"/>    
+
 ## 35. Structural pattern - Facade
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173146-7befaac8-d5f9-43c3-a343-56bddb9efb53.png"/>   
+
 ## 36. Structural pattern - Flyweight
-## 37. Structural pattern - Proxy
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173182-94c720c9-9728-45f9-a39e-6b02cd50cc10.png"/>      
+
+## 37. Structural pattern - Proxy  
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173227-6366f90d-1d29-45bb-b4ad-d3887e67e0ef.png"/>     
+
 ## 38. Structural pattern - Decorator
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173290-810ceef3-b11d-4366-a929-2c684a6d0ced.png"/>     
+
 ## 39. Stack & Heap & Cấp phát bộ nhớ
+
+
+
+
+
+
+
+
+
 
 
