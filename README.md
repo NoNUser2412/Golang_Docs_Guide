@@ -325,7 +325,10 @@ func fib(n int) int {
 	return fib(n-1) + fib(n-2)
 }
 ```   
-# ***DESIGN PATTERN FOR*** *Golang*
+# ***DESIGN PATTERN FOR*** *Golang*   
+![go](https://user-images.githubusercontent.com/68103697/143244421-1dea961c-8caf-4e41-82fe-95397df35fe7.png)
+
+ 
 ## 18. Creational pattern - Singleton *- Sử dụng để tạo ra một đối tượng xuyên suốt cho một struct (Data, IO, Log)*
 <img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143162544-1f108383-bd85-40e3-9b2d-61d001cd014b.png"/>   
 
@@ -1185,13 +1188,380 @@ func main() {
 ```   
 
 ## 24. Behavioral pattern - Iterator
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172134-b01e5e01-595f-43da-8a8f-13e40e98987e.png"/>  
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172134-b01e5e01-595f-43da-8a8f-13e40e98987e.png"/>    
+**Các thành phần:**   
+- Client   
+- Collection interface   
+- Concrete Collection 1   
+- Iterator interface    
+    
+	- Phương thức hasNext()   
+	- Phương thức getNext()   
+- Concrete iterator       
+
+
+**File** *user.go*
+```Go
+//File user.go
+package iterator
+
+import "fmt"
+
+type User struct {
+	Name string
+	Age int
+}
+```
+**File** *collection.go*
+```Go
+//File collection.go
+package iterator
+
+import "fmt"
+
+type Collection interface {
+	CreateIterator() Iterator
+}
+```   
+**File** *userCollection.go*
+```Go
+//File userCollection.go
+package iterator
+
+import "fmt"
+
+type UserCollection struct {
+	user [] *User
+}
+
+func (u *UserCollection) CreateIterator() Iterator {
+	return &UserIterator{
+		users : u.users,
+	}
+}
+```   
+**File** *iterator.go*
+```Go
+//File iterator.go
+package iterator
+
+import "fmt"
+
+type Iterator interface {
+	HasNext() bool
+	GetNext() *User
+}
+```   
+**File** *userIterator.go*
+```Go
+//File userIterator.go
+package iterator
+
+import "fmt"
+
+type UserIterator struct {
+	users []*User
+	index int
+}
+
+func (u *UserIterator) HasNext() bool {
+	if u.index < len(u.users) {
+		return true
+	}
+	return false
+}
+
+func (u *UserIterator) GetNext() *User {
+	if u.HasNext() {
+		user := u.users(u.index)
+		u.index++
+		return user
+	}
+	return nil
+}
+```    
+**File** *main.go*
+```Go
+//File main.go
+package main
+
+import (
+	"fmt"
+	i "iterator"
+)
+
+func main() {
+	user1 := &i.User {
+		Name : "Yuh",
+		Age : 18,
+	}
+	user2 := &i.User {
+		Name : "Tom",
+		Age : 40,
+	}
+	UserCollection := &UserCollection{
+		Users : []*i.User{user1, user2},
+	}
+	iterator := userCollection.CreateIterator()
+
+	for iterator.HasNext() {
+		user := iterator.GetNext()
+		fmt.Printf("User is %+v\n", user)
+	}
+}
+``` 
+
 
 ## 25. Behavioral pattern - Mediator
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172523-f7696e35-76e2-4f4c-80c1-e5b097f62348.png"/>    
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172523-f7696e35-76e2-4f4c-80c1-e5b097f62348.png"/>     
+**Các thành phần**   
+- Client Interface   
+- Concrete client,...   
+- Mediator interface   
+- Concrete Mediator   
+   
+**File** *train.go*    
+```Go
+//File train.go
+package meidator
 
+import (
+	"fmt"
+	"sync"
+)
+
+type Train interface {
+	RequestArrival()
+	Departure()
+	PermitArrival()
+}
+```  
+**File** *mediator.go*    
+```Go
+//File mediator.go
+package mediator
+
+type Mediator interface {
+	CanLand(Train) bool
+	NotifyFree()
+}
+```   
+**File** *passengerTrain.go*    
+```Go
+//File passengerTrain.go
+package mediator
+
+type PassengerTrain struct {
+	Mediator Mediator
+}
+
+func (p *PassengerTrain) RequestArrival() {
+	if p.Mediator.CanLand(p) {
+		fmt.Println("Passenger Train: Landing")
+	} else {
+		fmt.Println("Passenger Train: Waiting")
+	}
+}
+
+func (p *PassengerTrain) Departure() {
+	fmt.Println("Passenger Train: Leaving")
+	p.Mediator.NotifyFree()
+}
+
+func (p *PassengerTrain) PermitArrival() {
+	fmt.Println("Passenger Train: Arrival Permitted. Landing")
+}
+```   
+**File** *goodTrain.go*    
+```Go
+//File goodTrain.go
+package mediator
+
+type GoodTrain struct {
+	Mediator Mediator
+}
+
+func (g *GoodTrain) RequestArrival() {
+	if g.Mediator.CanLand(g) {
+		fmt.Println("Good Train: Landing")
+	} else {
+		fmt.Println("Good Train: Waiting")
+	}
+}
+
+func (g *GoodTrain) Departure() {
+	fmt.Println("Good Train: Leaving")
+	g.Mediator.NotifyFree()
+}
+
+func (g *GoodTrain) PermitArrival() {
+	fmt.Println("Good Train: Arrival Permitted. Landing")
+}
+```    
+**File** *stationManager.go*    
+```Go
+//File stationManager.go
+package mediator
+
+import "sync"
+
+type StationManager struct {
+	isPlatformFree bool
+	lock *sync.Mutex
+	trainQueue []Train
+}
+
+func NewStationManager() *StationManager {
+	return &StationManager{
+		isPlatformFree : true,
+		lock : &sync.Mutex{},
+	}
+}
+
+func (s *StationManager) CanLand(t Train) bool{
+	s.lock.Lock()
+	defer s.lock.Unlock()
+	if s.isPlatformFree {
+		s.isPlatformFree = false
+		return true
+	}
+	s.trainQueue = append(s.trainQueue, t)
+	return false
+}
+
+func (s *StationManager) NotifyFree() {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+	if !s.isPlatformFree {
+		s.isPlatformFree = true
+	}
+	if len(s.trainQueue) > 0 {
+		firstTrainInQueue := s.trainQueue[0]
+		s.trainQueue := s.trainQueue[1:]
+		firstTrainInQueue.PermitArrival()
+	}
+}
+```   
+**File** *main.go*    
+```Go
+//File main.go
+package main
+
+import m "mediator"
+
+func main() {
+	stationManager := m.newStationManager()
+	passengerTrain := &m.PassengerTrain{
+		Mediator: stationManager,
+	}
+	goodTrain := &m.GoodTrain{
+		Mediator: stationManager,
+	}
+	passengerTrain.RequestArrival()
+	goodTrain.RequestArrival()
+	passengerTrain.Departure()
+}
+```  
 ## 26. Behavioral pattern - Memento
 <img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172660-6677dce5-c3b9-47d5-9fb0-a3db397aac21.png"/>    
+**Các thành phần**   
+- Originator   
+- Memento  
+- Caretaker   
+
+**File** *originator.go*
+```Go
+//File originator.go
+package memento
+
+import "fmt"
+
+type Originator struct {
+	State string
+}
+
+func (e *Originator) CreateMemento() *Memento {
+	return &Memento {
+		state: e.State
+	}
+}
+
+func (e *Originator) RestoreMemento(m *Memento) {
+	e.State = m.state
+}
+
+func (e *Originator) GetState() string {
+	return e.State
+}
+
+func (e *Originator) SetState(state string) {
+	e.State = state
+}
+```  
+
+**File** *memento.go*
+```Go
+//File memento.go
+package memento
+
+type Memento struct {
+	state string
+}
+
+func (m *Memento) GetSaveState() string {
+	return m.state
+}
+```   
+**File** *careTaker.go*
+```Go
+//File caretaker.go
+package memento
+
+type CareTaker struct {
+	MementoArray []*Memento
+}
+
+func (c *CareTaker) AddMemento(m *Memento) {
+	c.mementoArray = append(c.MementoArray, m)
+}
+
+func (c *CareTaker) GetMemento(index int) *Memento {
+	return c.MementoArray[index]
+}
+```   
+**File** *main.go*
+```Go
+//File main.go
+package main
+
+import "fmt"
+
+func main() {
+	careTaker := &m.CareTaker{
+		MementoArray: make([]*m.Memento, 0),
+	}
+	originator := &m.Originator {
+		state : "A",
+	}
+	fmt.Println("Originator current state: %s\n", originator.GetState())
+	careTaker.AddMemento(originator.CreateMemento())
+
+	originator.SetState("B")
+	fmt.Println("Originator current state: %s\n", originator.GetState())
+
+	careTaker.AddMemento(originator.CreateMemento())
+	originator.SetState("C")
+
+	fmt.Println("Originator current state: %s\n", originator.GetState())
+	careTaker.AddMemento(originator.CreateMemento())
+
+	originator.RestoreMemento(careTaker.getMemento(1))
+	fmt.Println("Originator current state: %s\n", originator.GetState())
+
+	originator.RestoreMemento(careTaker.GetMemento(0))
+	fmt.Println("Originator current state: %s\n", originator.GetState())
+}
+```   
 
 ## 27. Behavioral pattern - Observer
 <img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172731-49a14b4f-756b-4d42-8932-2a2753c0a41e.png"/>     
