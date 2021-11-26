@@ -1190,13 +1190,15 @@ func main() {
 ## 24. Behavioral pattern - Iterator
 <img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172134-b01e5e01-595f-43da-8a8f-13e40e98987e.png"/>    
 **Các thành phần:**   
+    
 - Client   
 - Collection interface   
 - Concrete Collection 1   
 - Iterator interface    
     
 	- Phương thức hasNext()   
-	- Phương thức getNext()   
+	- Phương thức getNext()    
+  
 - Concrete iterator       
 
 
