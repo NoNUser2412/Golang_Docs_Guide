@@ -1188,7 +1188,9 @@ func main() {
 ```   
 
 ## 24. Behavioral pattern - Iterator
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172134-b01e5e01-595f-43da-8a8f-13e40e98987e.png"/>    
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172134-b01e5e01-595f-43da-8a8f-13e40e98987e.png"/>       
+       
+       
 **Các thành phần:**   
     
 - Client   
@@ -1315,13 +1317,16 @@ func main() {
 
 
 ## 25. Behavioral pattern - Mediator
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172523-f7696e35-76e2-4f4c-80c1-e5b097f62348.png"/>     
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172523-f7696e35-76e2-4f4c-80c1-e5b097f62348.png"/>        
+        
+	
 **Các thành phần**   
 - Client Interface   
 - Concrete client,...   
 - Mediator interface   
 - Concrete Mediator   
-   
+      
+      
 **File** *train.go*    
 ```Go
 //File train.go
@@ -1465,12 +1470,15 @@ func main() {
 }
 ```  
 ## 26. Behavioral pattern - Memento
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172660-6677dce5-c3b9-47d5-9fb0-a3db397aac21.png"/>    
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172660-6677dce5-c3b9-47d5-9fb0-a3db397aac21.png"/>         
+         
+	 
 **Các thành phần**   
 - Originator   
 - Memento  
 - Caretaker   
-
+      
+      
 **File** *originator.go*
 ```Go
 //File originator.go
@@ -1566,13 +1574,16 @@ func main() {
 ```   
 
 ## 27. Behavioral pattern - Observer
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172731-49a14b4f-756b-4d42-8932-2a2753c0a41e.png"/>    
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172731-49a14b4f-756b-4d42-8932-2a2753c0a41e.png"/>              
+       
+       
 **Các thành phần**     
 - Subject Interface   
 - Concrete Subject   
 - Observe Interface 
 - Concrete Observe   
-
+       
+       
 **File** *subject.go*
 ```Go
 //File subject.go
@@ -1684,11 +1695,15 @@ func main() {
 ```
 
 ## 28. Behavioral pattern - State
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172816-099490d0-a474-4f01-bf5c-2e5ecdaff30e.png"/>      
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172816-099490d0-a474-4f01-bf5c-2e5ecdaff30e.png"/>          
+        
+	
 **Các thành phần:**   
 - Context   
 - State Interface   
-- Concrete State ,...    
+- Concrete State ,...          
+      
+      
 **File:** *machine.go*
 ```Go
 //File machine.go
@@ -1789,11 +1804,15 @@ func main() {
 
 
 ## 29. Behavioral pattern - Strategy
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172858-2a8e5e59-f3a1-4d5a-9755-c52994304035.png"/>       
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172858-2a8e5e59-f3a1-4d5a-9755-c52994304035.png"/>           
+               
+	       
 **Các thành phần:**    
 - Context
 - Strategy interface   
-- Concrete Strategy,...   
+- Concrete Strategy,...        
+      
+      
 **File** *cache.go*    
 ```Go
 //File cache.go
@@ -1903,13 +1922,16 @@ func main() {
 
 
 ## 30. Behavioral pattern - Template method
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172894-d24b2443-2cad-4ac8-b422-8a60a47be891.png"/>      
-- **Các thành phần:**   
-    
-	- Method interface
-	- Concrete Object,...
-	- Template methods    
-    
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172894-d24b2443-2cad-4ac8-b422-8a60a47be891.png"/>           
+        
+	
+**Các thành phần:**       
+
+- Method interface     
+- Concrete Object,...      
+- Template methods    
+       
+       
 **File** *iOTP.go*
 ```Go
 //File iOTP.go
@@ -2021,16 +2043,444 @@ func main() {
 ```
 
 ## 31. Behavioral pattern - Visitor
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172937-a6129e6b-e761-4cb4-a38a-c22ca6fc9828.png"/>     
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172937-a6129e6b-e761-4cb4-a38a-c22ca6fc9828.png"/>        
+      
+ **Các thành phần:**    
+- Element Interface    
+    
+	- Phương thức Accept(visitor)    
+- Concrete Element ,...
+- Visitor interface    
+    
+	- Phương thức Visit(element)    
+   
+- Concrete Visitor    
+**File** *shape.go*    
+```Go
+//File shape.go
+package visitor
+
+import "fmt"
+
+type Shape interface {
+	Accept(Visitor)
+}
+```   
+**File** *visitor.go*    
+```Go
+//File visitor.go
+package visitor
+
+type Visit interface {
+	visitForSquare(s *Square)
+	visitForCircle(s *Circle)
+	visitForRectangle(s *Rectangle)
+}
+```     
+**File** *square.go*    
+```Go
+//File square.go
+package visitor
+
+type Square struct {
+	Side int
+}
+
+func (s *Square) Accept(v Visitor) {
+	v.visitForSquare(s)
+}
+```    
+**File** *circle.go*    
+```Go
+//File circle.go
+package visitor
+
+type Circle struct {
+	Radius int
+}
+
+func (c *Circle) Accept(v Visitor) {
+	v.visitForCircle(c)
+}
+```     
+**File** *rectangle.go*    
+```Go
+//File rectangle.go
+package visitor
+
+type Rectangle struct {
+	A int
+	B int
+}
+
+func (r *Rectangle) Accept(v Visitor) {
+	v.visitForRectangle(r)
+}
+```     
+**File** *areaCalculator.go*    
+```Go
+//File areaCalculator.go
+package visitor
+
+import "fmt"
+
+type AreaCalculator struct {
+	area int
+}
+
+func (a *AreaCalculator) visitForSquare(s Square) {
+	fmt.Println("Calculating area for Square")
+}
+
+func (a *AreaCalculator) visitForCircle(c Circle)  {
+	fmt.Println("Calculating area for Circle")
+}
+
+func (a *AreaCalculator) visitForRectangle(r Rectangle) {
+	fmt.Println("Calculating area for Rectangle")
+}
+```      
+**File** *perimeterCalculator.go*    
+```Go
+//File perimeterCalculator.go
+package visitor
+
+import "fmt"
+
+type PerimeterCalculator struct {
+	perimeter int
+}
+
+func (p *PerimeterCalculator) visitForSquare(s Square) {
+	fmt.Println("Calculating perimeter for Square")
+}
+
+func (p *PerimeterCalculator) visitForCircle(c Circle)  {
+	fmt.Println("Calculating perimeter for Circle")
+}
+
+func (p *PerimeterCalculator) visitForRectangle(r Rectangle) {
+	fmt.Println("Calculating perimeter for Rectangle")
+}
+```     
+**File** *main.go*    
+```Go
+//File main.go
+package main
+
+import v "visitor"
+
+func main() {
+	square := &v.Square{Side : 2}
+	circle := &v.Circle{Radius : 3}
+	rectangle := &v.Rectangle{A : 4, B : 5}
+
+	areaCal := &v.AreaCalculator{}
+	square.Accept(areaCal)
+	circle.Accept(areaCal)
+	rectangle.Accept(areaCal)
+
+	perimeterCal := &v.PerimeterCalculator{}
+	square.Accept(perimeterCal)
+	circle.Accept(perimeterCal)
+	rectangle.Accept(perimeterCal)
+}
+```
 
 ## 32. Structural pattern - Adapter
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172968-b0a5e113-7e47-406a-ad99-bb1b4066e55a.png"/>     
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172968-b0a5e113-7e47-406a-ad99-bb1b4066e55a.png"/>        
+      
+ **Các thành phần:**    
+- Target interface   
+- Concrete prototype 1    
+- Concrete prototype for Adapter     
+- Adaptee   
+- Client   
+**File** *computer.go*     
+```Go
+//File computer.go
+package adapter
+
+import "fmt"
+
+type Computer struct {
+	insertInSquarePort()
+}
+```    
+**File** *window.go*     
+```Go
+//File window.go
+package adapter
+
+import "fmt"
+
+type Window struct {}
+
+func (w *Window) insertInSquarePort() {
+	fmt.Printf("Insert square port into Windows computer ")
+}
+```     
+**File** *mac.go*     
+```Go
+//File mac.go
+package adapter
+
+import "fmt"
+
+type Mac struct {}
+
+func (m *Mac) insertInCirclePort(){
+	fmt.Println("Insert cirlce port into Mac computer")
+}
+```      
+**File** *macAdapter.go*     
+```Go
+//File macAdapter.go
+package adapter
+
+import "fmt"
+
+type MacAdapter struct {
+	M Mac
+}
+
+func (macAdapter *MacAdapter) insertInSquarePort() {
+	macAdapter.M.insertInCirclePort()
+}
+```      
+**File** *client.go*     
+```Go
+//File client.go
+package adapter
+
+type Client struct {}
+
+func (c *Client) insertSquareUSBInComputer(computer Computer) {
+	computer.insertInSquarePort()
+}
+```       
+**File** *main.go*     
+```Go
+//File main.go
+package adapter
+
+import a "adapter"
+
+func main() {
+	client := &a.Client{}
+	window := &a.Window{}
+	client.InsertSquareUSBInComputer(computer)
+
+	macAdapter := &a.MacAdapter{
+		m : a.Mac{},
+	}
+	client.InsertSquareUSBInComputer(macAdapter)
+}
+```
+
 
 ## 33. Structural pattern - Bridge
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173052-9eb02bd9-d3c1-4a80-841c-019d3c40c33f.png"/>     
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173052-9eb02bd9-d3c1-4a80-841c-019d3c40c33f.png"/>        
+      
+**Các thành phần:**     
+- Abstraction Interface   
+- Refined Abstraction,...    
+- Implementation interface   
+- Concrete implementation,...   
+    
+**File** *computer.go*
+```Go
+//File computer.go
+package bridge
+
+import "fmt"
+
+type Computer interface {
+	Print()
+	SetPrinter(Printer)
+}
+```  
+**File** *printer.go*
+```Go
+//File printer.go
+package bridge
+
+type Printer interface {
+	PrintFile()
+}
+```     
+**File** *window.go*
+```Go
+//File window.go
+package bridge
+
+import "fmt"
+
+type Windows struct {
+	printer Printer
+}
+
+func (w *Windows) Print() {
+	fmt.Println("Print request for Windows")
+	w.printer.PrintFile()
+}
+
+func (w *Windows) SetPrinter(printer Printer) {
+	w.printer = printer
+}
+```      
+**File** *mac.go*
+```Go
+//File mac.go
+package bridge
+
+import "fmt"
+
+type Mac struct {
+	printer Printer
+}
+
+func (m *Mac) Print() {
+	fmt.Println("Print request for Mac")
+	m.printer.PrintFile()
+}
+
+func (m *Mac) SetPrinter(printer Printer) {
+	m.printer = printer
+}
+```       
+**File** *hp.go*
+```Go
+//File hp.go
+package bridge
+
+import "fmt"
+
+type HP struct {}
+
+func (h *HP) printFile() {
+	fmt.Println("Printing by a HP printer")
+}
+```       
+**File** *epson.go*
+```Go
+//File epson.go
+package bridge
+
+import "fmt"
+
+type Epson struct {}
+
+func (e *Epson) printFile() {
+	fmt.Println("Printing by a Epson printer")
+}
+```       
+**File** *main.go*
+```Go
+//File main.go
+package main
+
+import b "bridge"
+
+func main() {
+	hpPrinter := &b.HP{}
+	epsonPrinter := &b.Epson{}
+
+	macComputer := &b.Mac{}
+	macComputer.SetPrinter(hpPrinter)
+	macComputer.Print()
+
+	macComputer.SetPrinter(epsonPrinter)
+	macComputer.Print()
+
+	windowComputer := &b.Windows{}
+	windowComputer.SetPrinter(hpPrinter)
+	windowComputer.Print()
+
+	windowComputer.SetPrinter(epsonPrinter)
+	windowComputer.Print()
+}
+```       
+
 
 ## 34. Structural pattern - Composite
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173116-ae46b30c-d050-4cbf-8c63-90ee0ed6cc47.png"/>    
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173116-ae46b30c-d050-4cbf-8c63-90ee0ed6cc47.png"/>        
+       
+**Các thành phần:**   
+- Component Interface    
+- Composite  
+- Leaf   
+
+**File** *component.go*
+```Go
+//File component.go
+package composite
+
+import "fmt"
+
+type Component interface {
+	Search(string)
+}
+```     
+**File** *file.go*
+```Go
+//File file.go
+package composite
+
+import "fmt"
+
+type file struct {
+	name string
+}
+
+func (f *File) Search(keyword string) {
+	fmt.Printf("Searching for keyword %s in file %s\n", keyword, f.Name)
+}
+```   
+**File** *folder.go*
+```Go
+//File folder.go
+package composite
+
+import "fmt"
+
+type Folder struct {
+	components []Component
+	Name string
+}
+
+func (f *Folder) Search(keyword string) {
+	fmt.Printf("Searching recursively for keyword %s in folder %s\n", keyword, f.Name)
+	for _, composite := range f.components {
+		composite.Search(keyword)
+	}
+}
+
+func (f *Folder) Add(c Component) {
+	f.components = append(f.components, c)
+}
+```       
+**File** *main.go*
+```Go
+//File main.go
+package main
+
+import c "composite"
+
+func main() {
+	file1 := &c.file{Name : "File 1"}
+	file2 := &c.file{Name : "File 2"}
+	file3 := &c.file{Name : "File 3"}
+	folder1 := &c.Folder{Name : "Folder1"}
+	folder1.Add(file1)
+	folder2 := &c.Folder{Name : "Folder2"}
+	folder2.Add(file2)
+	folder2.Add(file3)
+	folder2.Add(folder1)
+
+	folder2.Search("rose")
+}
+```
 
 ## 35. Structural pattern - Facade
 <img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143173146-7befaac8-d5f9-43c3-a343-56bddb9efb53.png"/>   
