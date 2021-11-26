@@ -1564,16 +1564,459 @@ func main() {
 ```   
 
 ## 27. Behavioral pattern - Observer
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172731-49a14b4f-756b-4d42-8932-2a2753c0a41e.png"/>     
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172731-49a14b4f-756b-4d42-8932-2a2753c0a41e.png"/>    
+**Các thành phần**     
+- Subject Interface   
+- Concrete Subject   
+- Observe Interface 
+- Concrete Observe   
+
+**File** *subject.go*
+```Go
+//File subject.go
+package observer
+
+import "fmt"
+
+type Subject interface {
+	Register(observer Observer)
+	Deregister(observer Observer)
+	NotifyAll()
+}
+```   
+**File** *item.go*
+```Go
+//File item.go
+package observer
+
+type Item struct {
+	ObserveList []Observer
+	Name string
+	InStock bool
+}
+
+func NewItem(name string) *Item {
+	return &Item {
+		Name : name,
+	}
+}
+
+func (i *Item) updateAvailability() {
+	fmt.Printf("Item %s is now in stock\n", i.Name)
+	i.InStock = true
+	i.NotifyAll()
+}
+
+func (i *Item) Register(o Observer) {
+	i.ObserveList = append(i.ObserveList, o)
+}
+
+func (i *Item) Deregister(o Observe) {
+	i.ObserveList = removeFromSlice(i.ObserveList, o)
+}
+
+func (i *Item) Notify(o Observe) {
+	for _, observer := range i.ObserveList {
+		observer.Upadate(i.Name)
+	}
+}
+
+func removeFromSlice(observerList []Observer, observeToRemove Observer) []Observe {
+	l := len(observerList)
+	for i, observer := range observerList {
+		if observeToRemove.GetID() == observer.GetID() {
+			observerList[l-1], observerList[i] = observerList[i], observerList[l-1]
+			return observerList[:l-1]
+		}
+	}
+	return observerList
+}
+```  
+**File** *observer.go*
+```Go
+//File observer.go
+package observer
+
+type Observer interface {
+	Update(string)
+	GetID() string
+}
+```     
+**File** *customer.go*
+```Go
+//File customer.go
+package observer
+
+import "fmt"
+
+type Customer struct {
+	ID string
+}
+
+func (c *Customer) Update(itemName string) {
+	fmt.Prinf("Sending email to customer %s for item %s\n",c.ID, itemName)
+}
+
+func (c *Customer) GetID() string {
+	return c.ID
+}
+```      
+**File** *main.go*
+```Go
+//File main.go
+package main
+
+import o "observer"
+
+func main() {
+	shirtItem := o.NewItem("Nike shirt")
+	observerFirst := &o.Customer(ID:"abc@gmail.com")
+	observerSecond := &o.Customer(ID:"xyz@gmail.com")
+
+	shirtItem.Register(observerFirst)
+	shirtItem.Register(observerSecond)
+
+	shirtItem.Deregister(observerSecond)
+	shirtItem.updateAvailability()
+}
+```
 
 ## 28. Behavioral pattern - State
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172816-099490d0-a474-4f01-bf5c-2e5ecdaff30e.png"/>    
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172816-099490d0-a474-4f01-bf5c-2e5ecdaff30e.png"/>      
+**Các thành phần:**   
+- Context   
+- State Interface   
+- Concrete State ,...    
+**File:** *machine.go*
+```Go
+//File machine.go
+package state
+
+import "fmt"
+type Machine struct {
+	current state
+}
+
+func NewMachine() *Machine {
+	fmt.Println("Machine is ready")
+	return &Machine{newOff()}
+}
+
+func (m *Machine) setCurrent(s state) {
+	m.current.current = s
+}
+
+func (m *Machine) On() {
+	m.current.on()
+}
+
+func (m *Machine) Off() {
+	m.current.off()
+}
+```   
+
+**File:** *state.go*
+```Go
+//File state.go
+package state
+
+type state interface {
+	on(m *Machine)
+	off(m *Machine)
+}
+```   
+**File:** *on.go*
+```Go
+//File on.go
+package state
+
+import "fmt"
+
+type on struct {
+}
+
+func newOn() state {
+	return &on{}
+}
+
+func (o *on) on(m *Machine) {
+	fmt.Println("Machine is already ON")
+}
+
+func (o *on) off(m *Machine) {
+	fmt.Println("Machine is going from ON to OFF")
+	m.setCurrent(newOff())
+}
+```    
+**File:** *off.go*
+```Go
+//File off.go
+package state
+
+type off struct{
+}
+
+func newOff() state {
+	return &off{}
+}
+
+func (o *off) on(m *Machine) {
+	fmt.Println("Machine is going from OFF to ON")
+	m.setCurrent(newOn())
+}
+
+func (o *on) off(m *Machine) {
+	fmt.Println("Machine is already OFF")
+}
+```     
+**File:** *main.go*
+```Go
+//File main.go
+package main
+
+import s "state"
+
+func main() {
+	machine := s.NewMachine()
+	machine.Off()
+	machine.On()
+	machine.On()
+	machine.Off()
+}
+```
+
 
 ## 29. Behavioral pattern - Strategy
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172858-2a8e5e59-f3a1-4d5a-9755-c52994304035.png"/>    
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172858-2a8e5e59-f3a1-4d5a-9755-c52994304035.png"/>       
+**Các thành phần:**    
+- Context
+- Strategy interface   
+- Concrete Strategy,...   
+**File** *cache.go*    
+```Go
+//File cache.go
+package strategy
+
+import "fmt"
+
+type Cache struct {
+	storage map[string] string
+	evictionAlgo EvictionAlgo
+	capacity int
+	maxCapacity int
+}
+
+func InitCache(e EvictionAlgo) *Cache {
+	storage := make(map[string]string)
+	return &Cache {
+		storage: storage,
+		evictionAlgo: e,
+		capacity: 0,
+		maxCapacity: 2,
+	}
+}
+
+func (c *Cache) SetEvictionAlgo(e EvictionAlgo) {
+	e.evictionAlgo = e
+}
+
+func (c *Cache) Add(key, value string) {
+	if c.capacity == c.maxCapacity {
+		c.evictionAlgo.evict()
+		c.capacity--
+	}
+	c.capacity++
+	c.storage[key] = value
+}
+```   
+**File** *evictionAlgo.go*    
+```Go
+//File evictionAlgo.go
+package strategy
+
+type EvictionAlgo interface {
+	evict(c *Cache)
+}
+```  
+**File** *fifo.go*    
+```Go
+//File fifo.go
+package strategy
+
+import "fmt"
+
+type FIFO struct {}
+
+func (f *FIFO) evict(c *Cache) {
+	fmt.Println("Evicting by FIFO strategy")
+}
+```   
+**File** *lru.go*    
+```Go
+//File lru.go
+package strategy
+
+import "fmt"
+
+type LRU struct {}
+
+func (l *LRU) evict(c *Cache) {
+	fmt.Println("Evicting by LRU strategy")
+}
+```    
+**File** *lfu.go*    
+```Go
+//File lfu.go
+package strategy
+
+import "fmt"
+
+type LFU struct {}
+
+func (f *LFU) evict(c *Cache) {
+	fmt.Println("Evicting by LFU strategy")
+}
+```   
+**File** *main.go*    
+```Go
+//File main.go
+package main
+
+import s "strategy"
+
+func main() {
+	lfu := &s.lfu{}
+	cache := s.InitCache{lfu}
+	cache.Add("a","1")
+	cache.Add("b","2")
+	cache.Add("c","3")
+	lru := &s.LRU{}
+	cache.SetEvictionAlgo(lru)
+	cache.Add("d","4")
+	fifo := &s.FIFO{}
+	cache.SetEvictionAlgo(fifo)
+	cache.Add("e","5")
+}
+```
+
 
 ## 30. Behavioral pattern - Template method
-<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172894-d24b2443-2cad-4ac8-b422-8a60a47be891.png"/>     
+<img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172894-d24b2443-2cad-4ac8-b422-8a60a47be891.png"/>      
+- **Các thành phần:**   
+    
+	- Method interface
+	- Concrete Object,...
+	- Template methods    
+    
+**File** *iOTP.go*
+```Go
+//File iOTP.go
+package templateMethod
+
+type IOtp interface {
+	genRandomOTP(int) string
+	saveOTPCache(string)
+	getMessage(string) string
+	sendNotification(string) error
+}
+```    
+**File** *sms.go*
+```Go
+//File sms.go
+package templateMethod
+
+import "fmt"
+
+type SMS struct {}
+
+func (s *SMS) genRandomOTP(len int ) string {
+	randomOTP := "1234"
+	fmt.Printf("SMS: generating random OTP %s \n", randomOTP)
+	return randomOTP
+}
+
+func (s *SMS) saveOTPCache(otp string) {
+	fmt.Printf("SMS: saving OTP: %s to cache \n",otp)
+}
+
+func (s *SMS) getMessage(otp string) string{
+	return "SMS OTP for login is " + otp
+}
+
+func (s *SMS) sendNotification(message string) error {
+	fmt.Printf("SMS: sending SMS %s\n", message)
+	return nil
+}
+```     
+**File** *email.go*
+```Go
+//File email.go
+package templateMethod
+
+import "fmt"
+
+type Email struct {}
+
+func (e *email) genRandomOTP(len int ) string {
+	randomOTP := "abcd"
+	fmt.Printf("EMAIL: generating random OTP %s \n", randomOTP)
+	return randomOTP
+}
+
+func (e *Email) saveOTPCache(otp string) {
+	fmt.Printf("EMAIL: saving OTP: %s to cache \n",otp)
+}
+
+func (e *Email) getMessage(otp string) string{
+	return "EMAIL OTP for login is " + otp
+}
+
+func (e *Email) sendNotification(message string) error {
+	fmt.Printf("EMAIL: sending SMS %s\n", message)
+	return nil
+}
+```      
+**File** *otp.go*
+```Go
+//File otp.go
+package templateMethod
+
+type OTP struct {
+	ObjectOTP IOtp
+}
+
+func (e *OTP) GenAndSendOTP (otplength int) error {
+	otp := o.ObjectOTP.genRandomOTP(otplength)
+	o.ObjectOTP.saveOTPCache(otp)
+	message := o.ObjectOTP.getMessage(otp)
+	err := o.ObjectOTP.sendNotification(message)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+```     
+**File** *main.go*
+```Go
+//File main.go
+package main
+
+import t "templateMethod"
+
+func main() {
+	smsOTP := &t.SMS{}
+	o := &t.OTP {
+		ObjectOTP : sendOTP,
+	}
+	o.GenAndSendOTP(4)
+
+	emailOTP := &t.Email{}
+	o = &t.OTP {
+		ObjectOTP: emailOTP,
+	}
+	o.GenAndSendEmail(4)
+}
+```
 
 ## 31. Behavioral pattern - Visitor
 <img  width="100%" align="center" src="https://user-images.githubusercontent.com/68103697/143172937-a6129e6b-e761-4cb4-a38a-c22ca6fc9828.png"/>     
